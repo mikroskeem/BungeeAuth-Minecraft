@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import me.vik1395.BungeeAuth.Utils.YamlGenerator;
-import me.vik1395.BungeeAuthAPI.PHP.APISockets;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -36,7 +35,7 @@ public class Main extends Plugin
 	public static HashMap<String, Runnable> guestserverchecker;
 	public static Plugin plugin;
 	public static int seshlength, phpport, gseshlength, entperip, errlim, pwtimeout, pwtries;
-	public static boolean sqlite, email, phpapi, guestfailsafe;
+	public static boolean sqlite, email, guestfailsafe;
 	public static String version, authlobby, authlobby2, lobby, lobby2, host, port, dbName, username, pass, register, 
     reg_success, already_reg, login_success, already_in, logout_success, already_out, reset_noreg, reset_success,
     no_perm, pass_change_success, wrong_pass, welcome_resume, welcome_login, welcome_register, pre_login,
@@ -76,14 +75,6 @@ public class Main extends Plugin
 		getProxy().getPluginManager().registerCommand(this, new ResetPlayer());
 		getProxy().getPluginManager().registerCommand(this, new Logout());
 		
-		if(phpapi)
-		{
-			getLogger().info("Enabling PHP API...");
-			
-			APISockets sockets = new APISockets();
-			sockets.enable(phpport);
-		}
-		
 		if(guestfailsafe)
 		{
 			checkGuestServer();
@@ -96,7 +87,6 @@ public class Main extends Plugin
 	
 	public void onDisable()
 	{
-		APISockets.disable();
 		if(plonline.size()>0)
 		{
 			for(int i=0; i<plonline.size();i++)
@@ -109,7 +99,6 @@ public class Main extends Plugin
 	private void loadYaml()
 	{
 
-	    sqlite = YamlGenerator.config.getBoolean("Use SQLite");
 		host = YamlGenerator.config.getString("Host");
 	    port = "" + YamlGenerator.config.getInt("Port");
 	    dbName = YamlGenerator.config.getString("DBName");
@@ -123,8 +112,7 @@ public class Main extends Plugin
 	    seshlength = YamlGenerator.config.getInt("Session Length");
 	    gseshlength = YamlGenerator.config.getInt("Guest Session Length");
 	    allowedun = YamlGenerator.config.getString("Legal Usernames Characters");
-	    entperip = YamlGenerator.config.getInt("Users per IP"); 
-	    phpapi = YamlGenerator.config.getBoolean("Enable PHP API");
+	    entperip = YamlGenerator.config.getInt("Users per IP");
 	    phpport = YamlGenerator.config.getInt("PHP API Port");
 	    phppass = YamlGenerator.config.getString("API Password");
 	    errlim = YamlGenerator.config.getInt("API Error Limit");

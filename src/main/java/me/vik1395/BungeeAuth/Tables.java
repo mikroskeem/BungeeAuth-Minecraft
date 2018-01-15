@@ -12,7 +12,6 @@ import java.util.Locale;
 
 import me.vik1395.BungeeAuth.Utils.Database;
 import me.vik1395.BungeeAuth.Utils.MySQL;
-import me.vik1395.BungeeAuth.Utils.SQLite;
 
 /*
 
@@ -35,47 +34,22 @@ public class Tables
 	
 	public Tables()
 	{
-		if(!Main.sqlite)
-		{
-			db = new MySQL(Main.host, Main.port, Main.dbName, Main.username, Main.pass);
-		}
-		else
-		{
-			String s = Main.plugin.getDataFolder().getAbsolutePath()+"/SQLite.db";
-			System.out.println(s);
-			db = new SQLite(s);
-		}
+		db = new MySQL(Main.host, Main.port, Main.dbName, Main.username, Main.pass);
 	}
 	
 	protected void Create() throws SQLException
 	{
 		Connection c = db.openConnection();
 		Statement statement = c.createStatement();
-		
-		if(!Main.sqlite)
+
+		ResultSet bacheck = statement.executeQuery("SHOW TABLES LIKE 'BungeeAuth';");
+		if(!bacheck.next())
 		{
-			ResultSet bacheck = statement.executeQuery("SHOW TABLES LIKE 'BungeeAuth';");
-			if(!bacheck.next())
-			{
-				statement.execute("CREATE TABLE `BungeeAuth` (`id` INT UNSIGNED NOT NULL AUTO_INCREMENT, `playername` VARCHAR(255) NOT NULL, `password` VARCHAR(255) NOT NULL, `pwtype` TINYINT(2) UNSIGNED NOT NULL, "
-						+ "`email` VARCHAR(255) NOT NULL DEFAULT 'player@localhost', `registeredip` VARCHAR(30) NOT NULL, `registerdate` DATE NOT NULL DEFAULT '0001-01-01', `lastip` VARCHAR(30) NOT NULL, `lastseen` DATETIME NOT NULL DEFAULT '0001-01-01 01:01:01', "
-						+ "`version` VARCHAR(10) NOT NULL, `status` VARCHAR(10) NOT NULL, PRIMARY KEY (`id`));");
-				statement.execute("INSERT INTO BungeeAuth (`playername`,`password`,`pwtype`, `email`, `registeredip`, `lastip`, `version`, `status`) VALUES ('bungeeauth','1000:5b42403130656137333635:c23a89d4186147d701d71e2036defc00c76438e33ec5e38ed5e8310b9e378d20b290c9ecad558b488acf0012c774d52b2aa9918c40b2a091febf2f963a6567b2',"
-						+ "'6','player@localhost','1.1.1.1','1.1.1.1','" + Main.version + "','ver'" +");");
-			}
-		}
-		
-		else
-		{
-			ResultSet bacheck = statement.executeQuery("SELECT * FROM sqlite_master WHERE name ='BungeeAuth' and type='table'; ");
-			if(!bacheck.next())
-			{
-				statement.execute("CREATE TABLE `BungeeAuth` (`id` INTEGER NOT NULL , `playername` VARCHAR(255) NOT NULL, `password` VARCHAR(255) NOT NULL, `pwtype` TINYINT(2) NOT NULL, "
-						+ "`email` VARCHAR(255) NOT NULL DEFAULT 'player@localhost', `registeredip` VARCHAR(30) NOT NULL, `registerdate` DATE NOT NULL DEFAULT '0001-01-01', `lastip` VARCHAR(30) NOT NULL, `lastseen` DATETIME NOT NULL DEFAULT '0001-01-01 01:01:01', "
-						+ "`version` VARCHAR(10) NOT NULL, `status` VARCHAR(10) NOT NULL, PRIMARY KEY (`id`));");
-				statement.execute("INSERT INTO BungeeAuth (`playername`,`password`,`pwtype`, `email`, `registeredip`, `lastip`, `version`, `status`) VALUES ('bungeeauth','1000:5b42403130656137333635:c23a89d4186147d701d71e2036defc00c76438e33ec5e38ed5e8310b9e378d20b290c9ecad558b488acf0012c774d52b2aa9918c40b2a091febf2f963a6567b2',"
-						+ "'6','player@localhost','1.1.1.1','1.1.1.1','" + Main.version + "','ver'" +");");
-			}
+			statement.execute("CREATE TABLE `BungeeAuth` (`id` INT UNSIGNED NOT NULL AUTO_INCREMENT, `playername` VARCHAR(255) NOT NULL, `password` VARCHAR(255) NOT NULL, `pwtype` TINYINT(2) UNSIGNED NOT NULL, "
+					+ "`email` VARCHAR(255) NOT NULL DEFAULT 'player@localhost', `registeredip` VARCHAR(30) NOT NULL, `registerdate` DATE NOT NULL DEFAULT '0001-01-01', `lastip` VARCHAR(30) NOT NULL, `lastseen` DATETIME NOT NULL DEFAULT '0001-01-01 01:01:01', "
+					+ "`version` VARCHAR(10) NOT NULL, `status` VARCHAR(10) NOT NULL, PRIMARY KEY (`id`));");
+			statement.execute("INSERT INTO BungeeAuth (`playername`,`password`,`pwtype`, `email`, `registeredip`, `lastip`, `version`, `status`) VALUES ('bungeeauth','1000:5b42403130656137333635:c23a89d4186147d701d71e2036defc00c76438e33ec5e38ed5e8310b9e378d20b290c9ecad558b488acf0012c774d52b2aa9918c40b2a091febf2f963a6567b2',"
+					+ "'6','player@localhost','1.1.1.1','1.1.1.1','" + Main.version + "','ver'" +");");
 		}
 		
 		statement.close();

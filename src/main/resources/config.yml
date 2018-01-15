@@ -1,8 +1,5 @@
 # BungeeAuth Config File
 
-Use SQLite: false
-# Set this to true if you want to use a file based database (SQLite) rather than MySQL
-
 Host: 127.0.0.1
 # Please enter the Host of your MySQL database here.
 
@@ -54,17 +51,3 @@ Wrong Password Timeout: 5
 
 Guest Server Failsafe Check: true
 # A failsafe method that runs every 10 seconds to check if a guest player is in AuthLobby, and if not, moves them to AuthLobby.
-
-#---------------------------- PHP API AREA ----------------------------#
-
-Enable PHP API: false
-# Enabling this will make the plugin listen to API requests from a port.
-
-PHP API Port: 1395
-# The port that the plugin will be listening for API requests on.
-
-API Password: 'pZe8qNCC6s5NKvYj'
-# The password required in the API requests for a response. If you don't have a password, please leave two single quotation marks (') in this field.
-
-API Error Limit: 5
-# Set the maximum number of wrong api password attempts used by a php script before it's ip gets blocked. IP will be blocked until removed from apiblacklist.txt
