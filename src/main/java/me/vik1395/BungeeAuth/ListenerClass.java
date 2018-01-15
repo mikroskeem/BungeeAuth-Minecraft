@@ -51,7 +51,7 @@ public class ListenerClass implements Listener
 	{
 		if(!ple.getConnection().getName().matches(Main.allowedun))
 		{
-			ple.setCancelReason(ChatColor.RED + Main.illegal_name);
+			ple.setCancelReason(new TextComponent(ChatColor.RED + Main.illegal_name));
 			ple.setCancelled(true);
 		}
 	}
