@@ -1,17 +1,14 @@
-/doc/
-/target/
-
-# Netbeans
-/nbproject/
-/nbactions-deployer.xml
-/nb-configuration.xml
-
-# Eclipse
-/.classpath
-/.project
-/.settings
-/bin
-
-# Jetbrains
+# IntelliJ IDEA
 *.iml
-/.idea
+.idea/
+out/
+
+# Maven
+target/
+dependency-reduced-pom.xml
+
+# Gradle
+!gradle-wrapper.jar
+.gradle/
+build/
+*/build/
